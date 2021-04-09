@@ -38,6 +38,7 @@ class bullet:
     
         if self.rect.colliderect(target.rect):
             if self.type == 1:
+                target.hp -= self.damage
                 if self.option[0] == "rooted":
                     target.rooted(self.option[1])
                 elif self.option[0] == "stunned":

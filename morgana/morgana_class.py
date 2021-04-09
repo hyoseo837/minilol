@@ -15,4 +15,4 @@ class morgana(champion):
         if self.skl1_cool <= 0:
             self.skl1_cool = 5
             return bullet(self.name, self.ap*2, 600,\
-                 (self.posx,self.posy), self.direction, 60, 1,["rooted", 4, False]) #종류, 시간, 관통 여부
+                 (self.posx,self.posy), self.direction, 60, 1,["rooted", 3, False]) #종류, 시간, 관통 여부
