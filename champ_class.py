@@ -21,7 +21,6 @@ class champion:
 
         self.status = status
         self.root_time = -1
-        self.stun_time = -1
         self.atk_cool = 0
         self.skl1_cool = 0
 
@@ -60,10 +59,6 @@ class champion:
             self.root_time -= 1/(1000/dt)
         else:
             self.status = "none"
-
-        if self.stun_time > 0:
-            self.status = "stunned"
-            self.stun_time -= 1/(1000/dt)
             
         if self.atk_cool > 0:
             self.atk_cool -= 1/(1000/dt)
