@@ -21,11 +21,14 @@ class champion:
 
         self.status = status
         self.atk_cool = 0
+        self.skl1_cool = 0
 
         self.stat = stat_list[self.name]
         self.hp = self.stat[0]
         self.mp = self.stat[1]
         self.speed = self.stat[2]
+        self.ad = self.stat[4]
+        self.ap = self.stat[5]
     
     def move(self, alpha, dt):
         if self.status == "none":
@@ -54,6 +57,8 @@ class champion:
 
         if self.atk_cool > 0:
             self.atk_cool -= 1/(1000/dt)
+        if self.skl1_cool > 0:
+            self.skl1_cool -= 1/(1000/dt)
 
     def attack(self):
         if self.atk_cool <= 0:

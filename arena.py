@@ -3,8 +3,11 @@ import math
 import random
 import os
 
-loc = os.path.dirname(os.path.abspath(__file__))
 from morgana.morgana_class import morgana
+from udyr.udyr_class import udyr
+
+loc = os.path.dirname(os.path.abspath(__file__))
+
 
 pygame.init()
 
@@ -22,7 +25,7 @@ hp_font = pygame.font.Font(None, 20)
 
 background = pygame.image.load(f"{loc}/background.png")
 
-player1 = morgana("test", (400,400), 0, "none") # wasd ghj
+player1 = udyr("udyr", (400,400), 0, "none") # wasd ghj
 player2 = morgana("morgana", (800,400), 180, "none") # arrow 123
 md1,td1 = 0,0
 md2,td2 = 0,0
@@ -61,6 +64,7 @@ while running:
             pass
         else:
             bullets.append(k)
+
     md2,td2 = 0,0
     if keys_pressed[pygame.K_UP]:
         md2 = 1
@@ -76,7 +80,12 @@ while running:
             pass
         else:
             bullets.append(k)
-    
+    if keys_pressed[pygame.K_KP2]:
+        k = player2.skill1()
+        if k == None:
+            pass
+        else:
+            bullets.append(k)
 
     for i in bullets:
         i.move(dt)
@@ -101,14 +110,14 @@ while running:
 
 
     screen.blit(background, (0, 0))
+    for i in bullets:
+        screen.blit(i.rsprite, (i.posx - i.sprite.get_rect().size[0]/2, i.posy- i.sprite.get_rect().size[1]/2))
 
     screen.blit(player1.rsprite, (player1.rposx, player1.rposy))
     screen.blit(player1.hp_text, (player1.posx-15, player1.posy + 20))
     screen.blit(player2.rsprite, (player2.rposx, player2.rposy))
     screen.blit(player2.hp_text, (player2.posx-15, player2.posy + 20))
-    for i in bullets:
-        screen.blit(i.sprite, (i.posx,i.posy))
-
+    
     pygame.display.update() 
 
 
