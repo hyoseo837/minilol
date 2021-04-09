@@ -20,6 +20,10 @@ class bullet:
         self.initial_pos = pos
         self.direction = direction
         self.speed = speed
+        self.rsprite = pygame.transform.rotate(self.sprite, self.direction)
+        self.rect = self.rsprite.get_rect()
+        self.rect.left = self.posx
+        self.rect.top = self.posy
     
     def move(self,dt):
         self.posx += self.speed * math.cos(math.radians(self.direction))  *dt /100

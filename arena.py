@@ -22,6 +22,7 @@ clock = pygame.time.Clock()
 bullets = []
 # Text Variable
 hp_font = pygame.font.Font(None, 20)
+cool_font = pygame.font.Font(None, 50)
 
 background = pygame.image.load(f"{loc}/background.png")
 
@@ -29,6 +30,7 @@ player1 = udyr("udyr", (400,400), 0, "none") # wasd ghj
 player2 = morgana("morgana", (800,400), 180, "none") # arrow 123
 md1,td1 = 0,0
 md2,td2 = 0,0
+black = (0,0,0)
 
 # Time Variable
 # [Moment Name] = pygame.time.get_ticks() # Save the moment
@@ -41,7 +43,7 @@ while running:
     player2.update(md2,td2,dt)
 
     for i in [player1,player2]:
-        i.hp_text = hp_font.render(f"{i.hp}",True, (10,10,10))
+        i.hp_text = hp_font.render(f"{i.hp}",True, black)
 
     for event in pygame.event.get():
         
@@ -106,10 +108,22 @@ while running:
         print("player 1 win!")
         running = False 
 
+    cool_texts1 = []
+    cool_texts1.append(cool_font.render(f"{round(player1.atk_cool,2)}", True, black))
+    cool_texts1.append(cool_font.render(f"{round(player1.skl1_cool,2)}", True, black))
+    cool_texts2 = []
+    cool_texts2.append(cool_font.render(f"{round(player2.atk_cool,2)}", True, black))
+    cool_texts2.append(cool_font.render(f"{round(player2.skl1_cool,2)}", True, black))
 
     screen.blit(background, (0, 0))
     for i in bullets:
         screen.blit(i.rsprite, (i.posx - i.sprite.get_rect().size[0]/2, i.posy- i.sprite.get_rect().size[1]/2))
+    
+    
+    for i in cool_texts1:
+        screen.blit(i,(10, 50*cool_texts1.index(i)))
+    for i in cool_texts2:
+        screen.blit(i,(screen_width - i.get_rect().size[0]-10, 50*cool_texts2.index(i)))
 
     screen.blit(player1.rsprite, (player1.rposx, player1.rposy))
     screen.blit(player1.hp_text, (player1.posx-15, player1.posy + 20))
