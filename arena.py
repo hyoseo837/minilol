@@ -110,24 +110,6 @@ while running:
     player1.update(md1,td1)
     player2.update(md2,td2)
 
-    for i in bullets:
-        i.move()
-        if (i.initial_pos[0] - i.posx)**2 + (i.initial_pos[1] - i.posy)**2 > i.range **2:
-            bullets.remove(i)
-        elif i.name == player1.name:
-            if i.rect.colliderect(player2.rect):
-                player2.hp -= i.damage
-                bullets.remove(i)
-        elif i.name == player2.name:
-            if i.rect.colliderect(player1.rect):
-                player1.hp -= i.damage
-                bullets.remove(i)
-    
-    for i in [player1,player2]:
-        if i.hp <= 0:
-           print(f"{i.name} win")
-           running = False 
-
     for event in pygame.event.get():
         
         if event.type == pygame.QUIT:
@@ -173,7 +155,25 @@ while running:
                 td2 = 0
             elif event.key == pygame.K_RIGHT:
                 td2 = 0
+
+    for i in bullets:
+        i.move()
+        if (i.initial_pos[0] - i.posx)**2 + (i.initial_pos[1] - i.posy)**2 > i.range **2:
+            bullets.remove(i)
+        elif i.name == player1.name:
+            if i.rect.colliderect(player2.rect):
+                player2.hp -= i.damage
+                bullets.remove(i)
+        elif i.name == player2.name:
+            if i.rect.colliderect(player1.rect):
+                player1.hp -= i.damage
+                bullets.remove(i)
     
+    for i in [player1,player2]:
+        if i.hp <= 0:
+           print(f"{i.name} win")
+           running = False 
+
 
     screen.blit(background, (0, 0))
 
