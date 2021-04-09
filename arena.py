@@ -78,8 +78,8 @@ class champion:
         self.turn(be)
         self.rsprite = pygame.transform.rotate(self.sprite, self.direction)
         self.rect = self.rsprite.get_rect()
-        self.rposx = self.posx-player1.rect.size[0]/2
-        self.rposy = self.posy-player1.rect.size[1]/2
+        self.rposx = self.posx-self.rect.size[0]/2
+        self.rposy = self.posy-self.rect.size[1]/2
         self.rect.left = self.rposx
         self.rect.top = self.rposy
 
@@ -114,47 +114,31 @@ while running:
         
         if event.type == pygame.QUIT:
             running = False
-        
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                md1 = 1
-            elif event.key == pygame.K_s:
-                md1 = -1
-            elif event.key == pygame.K_a:
-                td1 = 1
-            elif event.key == pygame.K_d:
-                td1 = -1
-            elif event.key == pygame.K_g:
-                player1.attack()
-
-            elif event.key == pygame.K_UP:
-                md2 = 1
-            elif event.key == pygame.K_DOWN:
-                md2 = -1
-            elif event.key == pygame.K_LEFT:
-                td2 = 1
-            elif event.key == pygame.K_RIGHT:
-                td2 = -1
-            elif event.key == pygame.K_KP1:
-                player2.attack()
-        
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_w:
-                md1 = 0
-            elif event.key == pygame.K_s:
-                md1 = 0
-            elif event.key == pygame.K_a:
-                td1 = 0
-            elif event.key == pygame.K_d:
-                td1 = 0
-            elif event.key == pygame.K_UP:
-                md2 = 0
-            elif event.key == pygame.K_DOWN:
-                md2 = 0
-            elif event.key == pygame.K_LEFT:
-                td2 = 0
-            elif event.key == pygame.K_RIGHT:
-                td2 = 0
+    
+    keys_pressed = pygame.key.get_pressed()
+    md1,td1 = 0,0
+    if keys_pressed[pygame.K_w]:
+        md1 = 1
+    if keys_pressed[pygame.K_s]:
+        md1 = -1
+    if keys_pressed[pygame.K_a]:
+        td1 = 1
+    if keys_pressed[pygame.K_d]:
+        td1 = -1
+    if keys_pressed[pygame.K_g]:
+        player1.attack()
+    md2,td2 = 0,0
+    if keys_pressed[pygame.K_UP]:
+        md2 = 1
+    if keys_pressed[pygame.K_DOWN]:
+        md2 = -1
+    if keys_pressed[pygame.K_LEFT]:
+        td2 = 1
+    if keys_pressed[pygame.K_RIGHT]:
+        td2 = -1
+    if keys_pressed[pygame.K_KP1]:
+        player2.attack()
+    
 
     for i in bullets:
         i.move()
@@ -169,10 +153,13 @@ while running:
                 player1.hp -= i.damage
                 bullets.remove(i)
     
-    for i in [player1,player2]:
-        if i.hp <= 0:
-           print(f"{i.name} win")
-           running = False 
+
+    if player1.hp <= 0:
+        print("player 2 win!")
+        running = False 
+    if player2.hp <= 0:
+        print("player 1 win!")
+        running = False 
 
 
     screen.blit(background, (0, 0))
