@@ -92,12 +92,10 @@ while running:
         if (i.initial_pos[0] - i.posx)**2 + (i.initial_pos[1] - i.posy)**2 > i.range **2:
             bullets.remove(i)
         elif i.name == player1.name:
-            if i.rect.colliderect(player2.rect):
-                player2.hp -= i.damage
+            if i.effect(player2) == "remove":
                 bullets.remove(i)
         elif i.name == player2.name:
-            if i.rect.colliderect(player1.rect):
-                player1.hp -= i.damage
+            if i.effect(player1) == "remove":
                 bullets.remove(i)
     
 

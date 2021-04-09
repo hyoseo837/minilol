@@ -12,7 +12,7 @@ class champion:
     def __init__(self, name, position, direction, status):
         self.name = name
         self.posx , self.posy = position
-        self.sprite = pygame.image.load(f"{loc}/{name}/body.png")
+        self.sprite = pygame.image.load(f"{loc}/{self.name}/body.png")
         self.rect = self.sprite.get_rect()
         self.rect.left = self.posx
         self.rect.top = self.posy
@@ -20,6 +20,8 @@ class champion:
         self.direction = direction
 
         self.status = status
+        self.root_time = -1
+        self.stun_time = -1
         self.atk_cool = 0
         self.skl1_cool = 0
 
@@ -31,7 +33,6 @@ class champion:
         self.ap = self.stat[5]
     
     def move(self, alpha, dt):
-        if self.status == "none":
             self.posx += self.speed * math.cos(math.radians(self.direction)) * alpha *dt /100
             self.posy -= self.speed * math.sin(math.radians(self.direction)) * alpha *dt /100
 
@@ -41,20 +42,29 @@ class champion:
                 self.posy += self.speed * math.sin(math.radians(self.direction)) * alpha *dt /100
     
     def turn(self, alpha,dt):
-        if self.status == "none":
             self.direction += alpha * 3 * dt/20
 
     def update(self,al,be,dt):
-        self.move(al,dt)
-        self.turn(be,dt)
+        if self.status == "none":
+            self.move(al,dt)
+            self.turn(be,dt)
         self.rsprite = pygame.transform.rotate(self.sprite, self.direction)
         self.rect = self.rsprite.get_rect()
         self.rposx = self.posx-self.rect.size[0]/2
         self.rposy = self.posy-self.rect.size[1]/2
         self.rect.left = self.rposx
         self.rect.top = self.rposy
+        
+        if self.root_time > 0:
+            self.status = "rooted"
+            self.root_time -= 1/(1000/dt)
+        else:
+            self.status = "none"
 
-
+        if self.stun_time > 0:
+            self.status = "stunned"
+            self.stun_time -= 1/(1000/dt)
+            
         if self.atk_cool > 0:
             self.atk_cool -= 1/(1000/dt)
         if self.skl1_cool > 0:
@@ -64,3 +74,11 @@ class champion:
         if self.atk_cool <= 0:
             bullets.append(bullet(self.name, self.stat[4], self.stat[6], (self.posx, self.posy), self.direction, 120))
             self.atk_cool = 1/self.stat[3]
+
+    def rooted(self, length):
+        self.status = "rooted"
+        self.root_time = length
+    
+    def stunned(self, length):
+        self.status = "stunned"
+        self.stun_time = length
