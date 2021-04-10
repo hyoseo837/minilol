@@ -21,8 +21,8 @@ class champion:
 
         self.status = status
         self.root_time = -1
-        self.atk_cool = 0
-        self.skl1_cool = 0
+        self.stun_time = -1
+        self.cool = [0,0]
 
         self.stat = stat_list[self.name]
         self.hp = self.stat[0]
@@ -44,9 +44,8 @@ class champion:
             self.direction += alpha * 3 * dt/20
 
     def update(self,al,be,dt):
-        if self.status == "none":
-            self.move(al,dt)
-            self.turn(be,dt)
+        self.move(al,dt)
+        self.turn(be,dt)
         self.rsprite = pygame.transform.rotate(self.sprite, self.direction)
         self.rect = self.rsprite.get_rect()
         self.rposx = self.posx-self.rect.size[0]/2
@@ -54,21 +53,22 @@ class champion:
         self.rect.left = self.rposx
         self.rect.top = self.rposy
         
-        if self.root_time > 0:
-            self.status = "rooted"
+        if self.stun_time >= 0:
+            self.stun_time -= 1/(1000/dt)
+        if self.root_time >= 0:
             self.root_time -= 1/(1000/dt)
-        else:
+        if self.stun_time < 0 and self.root_time < 0:
             self.status = "none"
             
-        if self.atk_cool > 0:
-            self.atk_cool -= 1/(1000/dt)
-        if self.skl1_cool > 0:
-            self.skl1_cool -= 1/(1000/dt)
+        if self.cool[0] > 0:
+            self.cool[0] -= 1/(1000/dt)
+        if self.cool[1] > 0:
+            self.cool[1] -= 1/(1000/dt)
 
     def attack(self):
-        if self.atk_cool <= 0:
+        if self.cool[0] <= 0:
             bullets.append(bullet(self.name, self.stat[4], self.stat[6], (self.posx, self.posy), self.direction, 120))
-            self.atk_cool = 1/self.stat[3]
+            self.cool[0] = 1/self.stat[3]
 
     def rooted(self, length):
         self.status = "rooted"

@@ -31,6 +31,7 @@ player2 = morgana("morgana", (800,400), 180, "none") # arrow 123
 md1,td1 = 0,0
 md2,td2 = 0,0
 black = (0,0,0)
+white = (221,221,221)
 
 # Time Variable
 # [Moment Name] = pygame.time.get_ticks() # Save the moment
@@ -44,6 +45,7 @@ while running:
 
     for i in [player1,player2]:
         i.hp_text = hp_font.render(f"{i.hp}",True, black)
+        i.status_text = hp_font.render(f"{i.status}", True, white)
 
     for event in pygame.event.get():
         
@@ -53,41 +55,59 @@ while running:
     keys_pressed = pygame.key.get_pressed()
     md1,td1 = 0,0
     if keys_pressed[pygame.K_w]:
-        md1 = 1
+        if player1.status == "none":
+            md1 = 1
     if keys_pressed[pygame.K_s]:
-        md1 = -1
+        if player1.status == "none":
+            md1 = -1
     if keys_pressed[pygame.K_a]:
-        td1 = 1
+        if player1.status == "none":
+            td1 = 1
     if keys_pressed[pygame.K_d]:
-        td1 = -1
+        if player1.status == "none":
+            td1 = -1
     if keys_pressed[pygame.K_g]:
-        k = player1.attack()
-        if k == None:
-            pass
-        else:
-            bullets.append(k)
+        if player1.status != "stunned":
+            k = player1.attack()
+            if k == None:
+                pass
+            else:
+                bullets.append(k)
+    if keys_pressed[pygame.K_h]:
+        if player1.status != "stunned":
+            k = player1.skill1()
+            if k == None:
+                pass
+            else:
+                bullets.append(k)
 
     md2,td2 = 0,0
     if keys_pressed[pygame.K_UP]:
-        md2 = 1
+        if player2.status == "none":
+            md2 = 1
     if keys_pressed[pygame.K_DOWN]:
-        md2 = -1
+        if player2.status == "none":
+            md2 = -1
     if keys_pressed[pygame.K_LEFT]:
-        td2 = 1
+        if player2.status == "none":
+            td2 = 1
     if keys_pressed[pygame.K_RIGHT]:
-        td2 = -1
+        if player2.status == "none":
+            td2 = -1
     if keys_pressed[pygame.K_KP1]:
-        k = player2.attack()
-        if k == None:
-            pass
-        else:
-            bullets.append(k)
+        if player2.status != "stunned":
+            k = player2.attack()
+            if k == None:
+                pass
+            else:
+                bullets.append(k)
     if keys_pressed[pygame.K_KP2]:
-        k = player2.skill1()
-        if k == None:
-            pass
-        else:
-            bullets.append(k)
+        if player2.status != "stunned":
+            k = player2.skill1()
+            if k == None:
+                pass
+            else:
+                bullets.append(k)
 
     for i in bullets:
         i.move(dt)
@@ -109,11 +129,12 @@ while running:
         running = False 
 
     cool_texts1 = []
-    cool_texts1.append(cool_font.render(f"{round(player1.atk_cool,2)}", True, black))
-    cool_texts1.append(cool_font.render(f"{round(player1.skl1_cool,2)}", True, black))
+    for i in player1.cool:
+        cool_texts1.append(cool_font.render(f"{round(i,2)}", True, black))
     cool_texts2 = []
-    cool_texts2.append(cool_font.render(f"{round(player2.atk_cool,2)}", True, black))
-    cool_texts2.append(cool_font.render(f"{round(player2.skl1_cool,2)}", True, black))
+    for i in player2.cool:
+        cool_texts2.append(cool_font.render(f"{round(i,2)}", True, black))
+        
 
     screen.blit(background, (0, 0))
     for i in bullets:
