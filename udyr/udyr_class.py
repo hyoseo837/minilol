@@ -16,4 +16,11 @@ class udyr(champion):
         if self.cool[1] <= 0:
             self.cool[1] = 5
             return bullet(self.name, self.ap*1, 90,\
-                 (self.posx,self.posy), self.direction, 60, 1,["stunned", 2, False])
+                 (self.posx,self.posy), self.direction, 60, 1,["stunned", 2, False],number=1)
+
+                 
+    def skill2(self):
+        if self.cool[2] <= 0:
+            self.cool[2] = 5
+            return bullet(self.name, self.ad*0.5, 90,\
+                 (self.posx,self.posy), self.direction, 60, 1,["slowed",1, False, 50],number=2)

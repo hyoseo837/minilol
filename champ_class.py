@@ -21,6 +21,7 @@ class champion:
 
         self.status = status
         self.shield = []
+        self.slow_time = -1
         self.root_time = -1
         self.stun_time = -1
         self.cool = [0,0,0]
@@ -28,6 +29,7 @@ class champion:
         self.stat = stat_list[self.name]
         self.hp = self.stat[0]
         self.mp = self.stat[1]
+        self.base_speed = self.stat[2]
         self.speed = self.stat[2]
         self.ad = self.stat[4]
         self.ap = self.stat[5]
@@ -54,6 +56,10 @@ class champion:
         self.rect.left = self.rposx
         self.rect.top = self.rposy
         
+        if self.slow_time >= 0:
+            self.slow_time -= 1/(1000/dt)
+        else: 
+            self.speed = self.base_speed
         if self.stun_time >= 0:
             self.stun_time -= 1/(1000/dt)
         if self.root_time >= 0:
@@ -78,3 +84,7 @@ class champion:
     def stunned(self, length):
         self.status = "stunned"
         self.stun_time = length
+
+    def slowed(self, length, power):
+        self.slow_time = length
+        self.speed *= power/100

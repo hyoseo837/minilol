@@ -15,11 +15,11 @@ class morgana(champion):
         if self.cool[1] <= 0:
             self.cool[1] = 5
             return bullet(self.name, self.ap*2, 600,\
-                 (self.posx,self.posy), self.direction, 60, 1,["rooted", 3, False]) 
+                 (self.posx,self.posy), self.direction, 60, 1,["rooted", 3, False],number=1) 
 
     def skill2(self):
         if self.cool[2] <= 0:
             self.cool[2] = 10
             self.shield.append("black")
             return bullet(self.name, self.ap*2, 1000,\
-                 (self.posx,self.posy), self.direction, 60, 2,["black",2])
+                 (self.posx,self.posy), self.direction, 60, 2,["black",2],number=2)

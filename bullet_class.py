@@ -5,16 +5,16 @@ import math
 loc = os.path.dirname(os.path.abspath(__file__))
 
 class bullet:
-    def __init__(self, name, damage, range, pos, direction, speed, type = 0, option = []):
+    def __init__(self, name, damage, range, pos, direction, speed, type = 0, option = [], number = 0):
         self.name = name
         self.posx, self.posy = pos
         self.type = type
         self.option = option
-        if type == 0:
+        if number == 0:
             self.sprite = pygame.image.load(f"{loc}/{self.name}/bullet.png")
-        elif type == 1:
+        elif number == 1:
             self.sprite = pygame.image.load(f"{loc}/{self.name}/skl1.png")
-        elif type == 2:
+        elif number == 2:
             self.sprite = pygame.image.load(f"{loc}/{self.name}/skl2.png")
 
         self.damage = damage
@@ -61,6 +61,8 @@ class bullet:
                         target.rooted(self.option[1])
                     elif self.option[0] == "stunned":
                         target.stunned(self.option[1])
+                    elif self.option[0] == "slowed":
+                        target.slowed(self.option[1], self.option[3])
                     if not self.option[2]:
                         return "remove"
             else:

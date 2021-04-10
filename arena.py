@@ -44,8 +44,8 @@ while running:
     player2.update(md2,td2,dt)
 
     for i in [player1,player2]:
-        i.hp_text = hp_font.render(f"{i.hp}",True, black)
-        i.status_text = hp_font.render(f"{i.status}", True, white)
+        i.hp_text = hp_font.render(f"{round(i.hp)}",True, black)
+        i.status_text = hp_font.render(f"{i.status}", True, black)
 
     for event in pygame.event.get():
         
@@ -165,8 +165,12 @@ while running:
 
     screen.blit(player1.rsprite, (player1.rposx, player1.rposy))
     screen.blit(player1.hp_text, (player1.posx-15, player1.posy + 20))
+    
     screen.blit(player2.rsprite, (player2.rposx, player2.rposy))
     screen.blit(player2.hp_text, (player2.posx-15, player2.posy + 20))
+    for i in [player1,player2]:
+        if i.status != "none":
+            screen.blit(i.status_text, (i.posx-20, i.posy-35))
     
     
     pygame.display.update() 
