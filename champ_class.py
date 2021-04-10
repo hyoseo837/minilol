@@ -20,9 +20,10 @@ class champion:
         self.direction = direction
 
         self.status = status
+        self.shield = []
         self.root_time = -1
         self.stun_time = -1
-        self.cool = [0,0]
+        self.cool = [0,0,0]
 
         self.stat = stat_list[self.name]
         self.hp = self.stat[0]
@@ -59,11 +60,11 @@ class champion:
             self.root_time -= 1/(1000/dt)
         if self.stun_time < 0 and self.root_time < 0:
             self.status = "none"
-            
-        if self.cool[0] > 0:
-            self.cool[0] -= 1/(1000/dt)
-        if self.cool[1] > 0:
-            self.cool[1] -= 1/(1000/dt)
+        for i in self.cool:
+            if i > 0:
+                self.cool[self.cool.index(i)] -= 1/(1000/dt)
+            else:
+                self.cool[self.cool.index(i)] =0
 
     def attack(self):
         if self.cool[0] <= 0:
