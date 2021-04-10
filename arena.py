@@ -6,19 +6,26 @@ import stats
 
 loc = os.path.dirname(os.path.abspath(__file__))
 
-print(list(stats.stat_list.keys()))
+print("\n\n\n")
+for i in list(stats.stat_list.keys()):
+    print(i)
+print("\n")
 while True:
     p1_pick = input("player1 pick : ")
     if p1_pick in stats.stat_list.keys():
         if p1_pick == "morgana":
             from morgana.morgana_class import morgana
-            player1 = morgana(p1_pick, (400,400), 0)
+            player1 = morgana(p1_pick, (400,400), 180)
         elif p1_pick == "udyr":
             from udyr.udyr_class import udyr
-            player1= udyr(p1_pick, (400,400), 0)
+            player1= udyr(p1_pick, (400,400), 180)
         break
 
-print(list(stats.stat_list.keys()))
+print("\n\n\n")
+for i in list(stats.stat_list.keys()):
+    if i != p1_pick:
+        print(i)
+print("\n")
 while True:
     p2_pick = input("player2 pick : ")
     if p2_pick in stats.stat_list.keys() and p2_pick != p1_pick:
@@ -29,9 +36,6 @@ while True:
             from udyr.udyr_class import udyr
             player2= udyr(p2_pick, (1200,400), 0)
         break
-
-
-
 
 pygame.init()
 
