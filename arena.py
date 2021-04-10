@@ -2,11 +2,35 @@ import pygame
 import math
 import random
 import os
-
-from morgana.morgana_class import morgana
-from udyr.udyr_class import udyr
+import stats
 
 loc = os.path.dirname(os.path.abspath(__file__))
+
+print(list(stats.stat_list.keys()))
+while True:
+    p1_pick = input("player1 pick : ")
+    if p1_pick in stats.stat_list.keys():
+        if p1_pick == "morgana":
+            from morgana.morgana_class import morgana
+            player1 = morgana(p1_pick, (400,400), 0)
+        elif p1_pick == "udyr":
+            from udyr.udyr_class import udyr
+            player1= udyr(p1_pick, (400,400), 0)
+        break
+
+print(list(stats.stat_list.keys()))
+while True:
+    p2_pick = input("player2 pick : ")
+    if p2_pick in stats.stat_list.keys() and p2_pick != p1_pick:
+        if p2_pick == "morgana":
+            from morgana.morgana_class import morgana
+            player2 = morgana(p2_pick, (1200,400), 0)
+        elif p2_pick == "udyr":
+            from udyr.udyr_class import udyr
+            player2= udyr(p2_pick, (1200,400), 0)
+        break
+
+
 
 
 pygame.init()
@@ -26,8 +50,6 @@ cool_font = pygame.font.Font(None, 50)
 
 background = pygame.image.load(f"{loc}/background.png")
 
-player1 = udyr("udyr", (400,400), 0, "none") # wasd ghj
-player2 = morgana("morgana", (800,400), 180, "none") # arrow 123
 md1,td1 = 0,0
 md2,td2 = 0,0
 black = (0,0,0)

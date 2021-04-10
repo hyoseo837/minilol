@@ -9,7 +9,7 @@ screen_width = 1600
 screen_height = 900
 
 class champion:
-    def __init__(self, name, position, direction, status):
+    def __init__(self, name, position, direction, status = "none"):
         self.name = name
         self.posx , self.posy = position
         self.sprite = pygame.image.load(f"{loc}/{self.name}/body.png")
