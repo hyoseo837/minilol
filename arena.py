@@ -181,9 +181,6 @@ while running:
         cool_texts2.append(cool_font.render(f"{round(i,2)}", True, black))
         
     screen.blit(background, (0, 0))
-    for i in bullets:
-        screen.blit(i.rsprite, (i.posx - i.sprite.get_rect().size[0]/2, i.posy- i.sprite.get_rect().size[1]/2))
-    
     for i in cool_texts1:
         screen.blit(i,(10, 50*cool_texts1.index(i)))
     for i in cool_texts2:
@@ -197,6 +194,9 @@ while running:
     for i in [player1,player2]:
         if i.status != "none":
             screen.blit(i.status_text, (i.posx-20, i.posy-35))
+    for i in bullets:
+        screen.blit(i.rsprite, (i.posx - i.sprite.get_rect().size[0]/2, i.posy- i.sprite.get_rect().size[1]/2))
+    
     
     
     pygame.display.update() 
