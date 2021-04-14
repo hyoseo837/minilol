@@ -3,39 +3,51 @@ import math
 import random
 import os
 import stats
+from bullet_class import bullet
 
 loc = os.path.dirname(os.path.abspath(__file__))
+player1, player2 = "player 1","player 2"
+picked = []
+lucianR = False
+lrcount = 0
+luspeed = 7
+
+def pick(turn):
+    if turn == 1:
+        player = player1
+    elif turn == 0:
+        player = player2
+    while True:
+        ppick = input(f"{player} pick : ")
+        if ppick in stats.stat_list.keys() and ppick not in picked:
+            if ppick == "morgana":
+                from morgana.morgana_class import morgana
+                picked.append(ppick)
+                return morgana(ppick, (1200 - turn*800,400), 90)
+
+            elif ppick == "udyr":
+                from udyr.udyr_class import udyr
+                picked.append(ppick)
+                return udyr(ppick, (1200 - turn*800,400), 90)
+
+            elif ppick == "lucian":
+                from lucian.lucian_class import lucian
+                picked.append(ppick)
+                return lucian(ppick, (1200 - turn*800,400), 90)
+
 
 print("\n\n\n")
 for i in list(stats.stat_list.keys()):
     print(i)
 print("\n")
-while True:
-    p1_pick = input("player1 pick : ")
-    if p1_pick in stats.stat_list.keys():
-        if p1_pick == "morgana":
-            from morgana.morgana_class import morgana
-            player1 = morgana(p1_pick, (400,400), 180)
-        elif p1_pick == "udyr":
-            from udyr.udyr_class import udyr
-            player1= udyr(p1_pick, (400,400), 180)
-        break
+player1 = pick(1)
 
 print("\n\n\n")
 for i in list(stats.stat_list.keys()):
-    if i != p1_pick:
+    if i not in picked:
         print(i)
 print("\n")
-while True:
-    p2_pick = input("player2 pick : ")
-    if p2_pick in stats.stat_list.keys() and p2_pick != p1_pick:
-        if p2_pick == "morgana":
-            from morgana.morgana_class import morgana
-            player2 = morgana(p2_pick, (1200,400), 0)
-        elif p2_pick == "udyr":
-            from udyr.udyr_class import udyr
-            player2= udyr(p2_pick, (1200,400), 0)
-        break
+player2 = pick(0)
 
 pygame.init()
 
@@ -99,6 +111,11 @@ while running:
                 if k == None:
                     pass
                 else:
+                    if player1.name == "lucian":
+                        lucianR = True
+                        lucian = player1
+                        lrcount = luspeed*2
+                        continue
                     bullets.append(k)
         if keys_pressed[pygame.K_h]:
             if player1.status != "stunned":
@@ -108,11 +125,16 @@ while running:
                 else:
                     bullets.append(k)
         if keys_pressed[pygame.K_j]:
-            if player2.status != "stunned":
+            if player1.status != "stunned":
                 k = player1.skill2()
                 if k == None:
                     pass
                 else:
+                    if player1.name == "lucian":
+                        lucianR = True
+                        lucian = player1
+                        lrcount = luspeed*15
+                        continue
                     bullets.append(k)
 
     if True: # player 2 input
@@ -135,6 +157,11 @@ while running:
                 if k == None:
                     pass
                 else:
+                    if player2.name == "lucian":
+                        lucianR = True
+                        lucian = player2
+                        lrcount = luspeed*2
+                        continue
                     bullets.append(k)
         if keys_pressed[pygame.K_KP2]:
             if player2.status != "stunned":
@@ -149,7 +176,20 @@ while running:
                 if k == None:
                     pass
                 else:
+                    if player2.name == "lucian":
+                        lucianR = True
+                        lucian = player2
+                        lrcount = luspeed*15
+                        continue
                     bullets.append(k)
+
+    if lucianR :
+        if lrcount%5 == 0:
+            bullets.append(bullet(lucian.name, lucian.ad*0.6, 400,(lucian.posx, lucian.posy), lucian.direction, 90))
+        lrcount -= 1
+        if lrcount <= 0:
+            lucianR = False
+
 
     for i in bullets:
         if i.name == player1.name:
