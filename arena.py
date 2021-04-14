@@ -184,7 +184,7 @@ while running:
                     bullets.append(k)
 
     if lucianR :
-        if lrcount%5 == 0:
+        if lrcount%luspeed == 0:
             bullets.append(bullet(lucian.name, lucian.ad*0.6, 400,(lucian.posx, lucian.posy), lucian.direction, 90))
         lrcount -= 1
         if lrcount <= 0:
