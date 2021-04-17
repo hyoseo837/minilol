@@ -14,7 +14,7 @@ class morgana(champion):
     def skill1(self):
         if self.cool[1] <= 0:
             self.cool[1] = 6
-            return bullet(self.name, self.ap*2, 600,\
+            return bullet(self.name, self.ap*1.5, 600,\
                  (self.posx,self.posy), self.direction, 60, 1,["rooted", 2.5, False],number=1) 
 
     def skill2(self):

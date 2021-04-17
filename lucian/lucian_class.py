@@ -8,7 +8,7 @@ class lucian(champion):
     def attack(self):
         if self.cool[0] <= 0:
             self.cool[0] = 1/self.stat[3]
-            return bullet(self.name, self.ad, 400,\
+            return bullet(self.name, self.ad, 300,\
                  (self.posx, self.posy), self.direction, 80)
 
     

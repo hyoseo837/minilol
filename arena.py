@@ -10,6 +10,7 @@ player1, player2 = "player 1","player 2"
 picked = []
 lucianR = False
 lrcount = 0
+ldir = None
 luspeed = 7
 akaliR = -1
 
@@ -127,6 +128,7 @@ while running:
                         lucianR = True
                         lucian = player1
                         lrcount = luspeed*2
+                        ldir = lucian.direction
                         continue
                     bullets.append(k)
         if keys_pressed[pygame.K_h]:
@@ -146,6 +148,7 @@ while running:
                         lucianR = True
                         lucian = player1
                         lrcount = luspeed*15
+                        ldir = lucian.direction
                         continue
                     if player1.name == "akali":
                         akaliR = 6
@@ -182,6 +185,7 @@ while running:
                         lucianR = True
                         lucian = player2
                         lrcount = luspeed*2
+                        ldir = lucian.direction
                         continue
                     bullets.append(k)
         if keys_pressed[pygame.K_KP2]:
@@ -201,6 +205,7 @@ while running:
                         lucianR = True
                         lucian = player2
                         lrcount = luspeed*15
+                        ldir = lucian.direction
                         continue
                     if player2.name == "akali":
                         akaliR = 8
@@ -209,7 +214,7 @@ while running:
 
     if lucianR :
         if lrcount%luspeed == 0:
-            bullets.append(bullet(lucian.name, lucian.ad*0.6, 400,(lucian.posx, lucian.posy), lucian.direction, 90))
+            bullets.append(bullet(lucian.name, lucian.ad*0.4, 300,(lucian.posx, lucian.posy), ldir, 90))
         lrcount -= 1
         if lrcount <= 0:
             lucianR = False
