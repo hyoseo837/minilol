@@ -11,6 +11,7 @@ picked = []
 lucianR = False
 lrcount = 0
 luspeed = 7
+akaliR = -1
 
 def pick(turn):
     if turn == 1:
@@ -34,6 +35,11 @@ def pick(turn):
                 from lucian.lucian_class import lucian
                 picked.append(ppick)
                 return lucian(ppick, (1200 - turn*800,400), 90)
+
+            elif ppick == "akali":
+                from akali.akali_class import akali
+                picked.append(ppick)
+                return akali(ppick, (1200 - turn*800,400), 90)
 
 
 print("\n\n\n")
@@ -98,7 +104,13 @@ while running:
                 md1 = 1
         if keys_pressed[pygame.K_s]:
             if player1.status == "none":
-                md1 = -1
+                if akaliR > 0:
+                    if akali == player1:
+                        pass
+                    else:
+                        md1 = -1
+                else:
+                    md1 = -1
         if keys_pressed[pygame.K_a]:
             if player1.status == "none":
                 td1 = 1
@@ -135,6 +147,9 @@ while running:
                         lucian = player1
                         lrcount = luspeed*15
                         continue
+                    if player1.name == "akali":
+                        akaliR = 6
+                        akali = player1
                     bullets.append(k)
 
     if True: # player 2 input
@@ -144,7 +159,13 @@ while running:
                 md2 = 1
         if keys_pressed[pygame.K_DOWN]:
             if player2.status == "none":
-                md2 = -1
+                if akaliR > 0:
+                    if akali == player2:
+                        pass
+                    else:
+                        md2 = -1
+                else:
+                    md2 = -1
         if keys_pressed[pygame.K_LEFT]:
             if player2.status == "none":
                 td2 = 1
@@ -181,6 +202,9 @@ while running:
                         lucian = player2
                         lrcount = luspeed*15
                         continue
+                    if player2.name == "akali":
+                        akaliR = 8
+                        akali = player2
                     bullets.append(k)
 
     if lucianR :
@@ -190,7 +214,14 @@ while running:
         if lrcount <= 0:
             lucianR = False
 
-
+    if akaliR > 0:
+        akaliR -= 1
+        akali.speed  =  200
+        akali.move(1,dt)
+        if akaliR < 0:
+            akali.speed = akali.stat[2]
+            akaliR = -1
+    
     for i in bullets:
         if i.name == player1.name:
             i.move(dt,player1)

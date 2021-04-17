@@ -21,6 +21,5 @@ class lucian(champion):
     def skill2(self):
         if self.cool[2] <= 0:
             self.cool[2] = 24
-            self.shield.append("black")
-            return bullet(self.name, self.ap*2, 1000,\
-                 (self.posx,self.posy), self.direction, 60, 2,["black",3],number=2)
+            return bullet(self.name, self.ad*2, 1000,\
+                 (self.posx,self.posy), self.direction, 60,number=2)

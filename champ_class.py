@@ -87,4 +87,4 @@ class champion:
 
     def slowed(self, length, power):
         self.slow_time = length
-        self.speed *= power/100
+        self.speed *= 1 - power/100
