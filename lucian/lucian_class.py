@@ -15,8 +15,8 @@ class lucian(champion):
     def skill1(self):
         if self.cool[1] <= 0:
             self.cool[1] = 6
-            return bullet(self.name, self.ad*0.1, 150,\
-                 (self.posx,self.posy), self.direction, 200, 1,["", 2.5, True],number=1) 
+            return bullet(self.name, self.ad*0.1, 120,\
+                 (self.posx,self.posy), self.direction, 50, 1,["", 2.5, True],number=1) 
 
     def skill2(self):
         if self.cool[2] <= 0:

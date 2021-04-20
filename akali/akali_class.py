@@ -13,10 +13,10 @@ class akali(champion):
             self.cool[0] = 1/self.stat[3]
             if self.upgrade_attack == True:
                 self.upgrade_attack = False
-                return bullet(self.name, self.ad + 0.5*self.ap, 100,\
+                return bullet(self.name, self.ad + 0.5*self.ap, 80,\
                  (self.posx, self.posy), self.direction, 100)
             else:
-                return bullet(self.name, self.ad, 80,\
+                return bullet(self.name, self.ad, 60,\
                  (self.posx, self.posy), self.direction, 100)
 
     
@@ -24,7 +24,7 @@ class akali(champion):
         if self.cool[1] <= 0:
             self.cool[1] = 2.5
             self.upgrade_attack = True
-            return bullet(self.name, 0.7*self.ap, 120,\
+            return bullet(self.name, 0.7*self.ap, 100,\
                  (self.posx,self.posy), self.direction, 150, 1,["slowed", 0.5, True, 30],number=1) 
 
     def skill2(self):
