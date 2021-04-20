@@ -6,6 +6,7 @@ import stats
 from bullet_class import bullet
 
 loc = os.path.dirname(os.path.abspath(__file__))
+white_block = pygame.image.load(f"{loc}/a_stack.png")
 player1, player2 = "player 1","player 2"
 picked = []
 lucianR = False
@@ -41,16 +42,21 @@ def pick(turn):
                 from akali.akali_class import akali
                 picked.append(ppick)
                 return akali(ppick, (1200 - turn*800,400), 90)
+                
+            elif ppick == "annie":
+                from annie.annie_class import annie
+                picked.append(ppick)
+                return annie(ppick, (1200 - turn*800,400), 90)
 
 
 print("\n\n\n")
-for i in list(stats.stat_list.keys()):
+for i in list(sorted(stats.stat_list.keys())):
     print(i)
 print("\n")
 player1 = pick(1)
 
 print("\n\n\n")
-for i in list(stats.stat_list.keys()):
+for i in list(sorted(stats.stat_list.keys())):
     if i not in picked:
         print(i)
 print("\n")
@@ -113,10 +119,10 @@ while running:
                 else:
                     md1 = -1
         if keys_pressed[pygame.K_a]:
-            if player1.status == "none":
+            if player1.status != "stunned":
                 td1 = 1
         if keys_pressed[pygame.K_d]:
-            if player1.status == "none":
+            if player1.status != "stunned":
                 td1 = -1
         if keys_pressed[pygame.K_g]:
             if player1.status != "stunned":
@@ -214,7 +220,8 @@ while running:
 
     if lucianR :
         if lrcount%luspeed == 0:
-            bullets.append(bullet(lucian.name, lucian.ad*0.4, 300,(lucian.posx, lucian.posy), ldir, 90))
+            if lucian.status != "stunned":
+                bullets.append(bullet(lucian.name, lucian.ad*0.4, 300,(lucian.posx, lucian.posy), ldir, 90))
         lrcount -= 1
         if lrcount <= 0:
             lucianR = False
@@ -226,7 +233,7 @@ while running:
         if akaliR < 0:
             akali.speed = akali.stat[2]
             akaliR = -1
-    
+
     for i in bullets:
         if i.name == player1.name:
             i.move(dt,player1)
@@ -267,9 +274,13 @@ while running:
     
     screen.blit(player2.rsprite, (player2.rposx, player2.rposy))
     screen.blit(player2.hp_text, (player2.posx-15, player2.posy + 20))
+
     for i in [player1,player2]:
         if i.status != "none":
             screen.blit(i.status_text, (i.posx-20, i.posy-35))
+        if i.name == "annie":
+            for k in range(i.stack):
+                screen.blit(pygame.transform.scale(white_block,(10,6)), (i.posx+k*12-23,i.posy-25))
     for i in bullets:
         screen.blit(i.rsprite, (i.posx - i.sprite.get_rect().size[0]/2, i.posy- i.sprite.get_rect().size[1]/2))
     
