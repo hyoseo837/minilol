@@ -14,6 +14,7 @@ lrcount = 0
 ldir = None
 luspeed = 7
 akaliR = -1
+mundoR = 0
 
 def pick(turn):
     if turn == 1:
@@ -48,6 +49,11 @@ def pick(turn):
                 picked.append(ppick)
                 return annie(ppick, (1200 - turn*800,400), 90)
 
+            elif ppick == "mundo":
+                from mundo.mundo_class import mundo
+                picked.append(ppick)
+                return mundo(ppick, (1200 - turn*800,400), 90)
+
 
 print("\n\n\n")
 for i in list(sorted(stats.stat_list.keys())):
@@ -74,7 +80,7 @@ clock = pygame.time.Clock()
 
 bullets = []
 # Text Variable
-hp_font = pygame.font.Font(None, 20)
+hp_font = pygame.font.Font(None, 30)
 cool_font = pygame.font.Font(None, 50)
 
 background = pygame.image.load(f"{loc}/background.png")
@@ -159,6 +165,10 @@ while running:
                     if player1.name == "akali":
                         akaliR = 6
                         akali = player1
+                    if player1.name == "mundo":
+                        mundoR = 5*(1000/dt)
+                        mundo = player1
+
                     bullets.append(k)
 
     if True: # player 2 input
@@ -216,6 +226,9 @@ while running:
                     if player2.name == "akali":
                         akaliR = 8
                         akali = player2
+                    if player2.name == "mundo":
+                        mundoR = 5*(1000/dt)
+                        mundo = player2
                     bullets.append(k)
 
     if lucianR :
@@ -225,7 +238,6 @@ while running:
         lrcount -= 1
         if lrcount <= 0:
             lucianR = False
-
     if akaliR > 0:
         akaliR -= 1
         akali.speed  =  200
@@ -233,6 +245,11 @@ while running:
         if akaliR < 0:
             akali.speed = akali.stat[2]
             akaliR = -1
+    if mundoR > 0:
+        mundo.health_regen = 100
+        mundoR -= 1
+        if mundoR <= 0:
+            mundo.health_regen = mundo.stat[6]
 
     for i in bullets:
         if i.name == player1.name:

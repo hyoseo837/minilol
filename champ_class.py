@@ -28,11 +28,15 @@ class champion:
 
         self.stat = stat_list[self.name]
         self.hp = self.stat[0]
+        self.max_hp = self.stat[0]
         self.mp = self.stat[1]
+        self.max_mp = self.stat[1]
         self.base_speed = self.stat[2]
         self.speed = self.stat[2]
         self.ad = self.stat[4]
         self.ap = self.stat[5]
+        self.health_regen = self.stat[6]
+        self.mana_regen = self.stat[7]
     
     def move(self, alpha, dt):
             self.posx += self.speed * math.cos(math.radians(self.direction)) * alpha *dt /100
@@ -43,6 +47,7 @@ class champion:
             if self.posy < 0 or self.posy > (screen_height - self.sprite.get_rect().size[1]):
                 self.posy += self.speed * math.sin(math.radians(self.direction)) * alpha *dt /100
     
+
     def turn(self, alpha,dt):
             self.direction += alpha * 3 * dt/20
 
@@ -55,6 +60,10 @@ class champion:
         self.rposy = self.posy-self.rect.size[1]/2
         self.rect.left = self.rposx
         self.rect.top = self.rposy
+        if self.hp < self.max_hp:
+            self.hp += self.health_regen / (1000/dt)
+        if self.mp < self.max_mp:
+            self.mp += self.mana_regen / (1000/dt)
         
         if self.slow_time >= 0:
             self.slow_time -= 1/(1000/dt)
