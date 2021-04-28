@@ -32,9 +32,9 @@ class annie(champion):
             self.cool[2] = 5
             if self.stack == 4:
                 self.stack = 0
-                return bullet(self.name, self.ap*0.8, 60,\
-                 (self.posx,self.posy), self.direction, 50, 1,["stunned", 1.5, True],number=2) 
+                return bullet(self.name, self.ap*0.3, 10,\
+                 (self.posx,self.posy), self.direction, 15, 1,["stunned", 1.5, True],number=2) 
             else:
                 self.stack += 1
-                return bullet(self.name, self.ap*0.8, 60,\
-                 (self.posx,self.posy), self.direction, 50, 1,["", 2.5, True],number=2) 
+                return bullet(self.name, self.ap*0.3, 10,\
+                 (self.posx,self.posy), self.direction, 15, 1,["", 2.5, True],number=2) 

@@ -14,7 +14,7 @@ class mundo(champion):
     
     def skill1(self):
         if self.cool[1] <= 0:
-            self.cool[1] = 5
+            self.cool[1] = 6
             return bullet(self.name, self.ap*1, 250,\
                  (self.posx,self.posy), self.direction, 90, 1,["slowed", 1.5, False, 30],number=1)
 
